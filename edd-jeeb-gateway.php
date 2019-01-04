@@ -117,6 +117,7 @@ if( !class_exists( 'EDD_Jeeb' ) ) {
          * @return      array
          */
         public function settings( $settings ) {
+            $url = trailingslashit( home_url() );
             $jeeb_settings = array(
                 array(
                     'id'    => 'edd_jeeb_settings',
@@ -202,6 +203,14 @@ if( !class_exists( 'EDD_Jeeb' ) ) {
                       'en'   => 'English',
                       'fa'   =>'Persian'
                      ),
+                ),
+                array(
+                    'id'    => 'edd_jeeb_callback_url',
+                    'name'  => __( 'Return Url', 'edd-jeeb' ),
+                    'desc'  => __( 'Enter the URL to which you want the user to return after the payment', 'edd-jeeb' ),
+                    'type'  => 'text',
+                    'std'   => $url,
+                    'faux'  => true
                 )
             );
 
@@ -263,7 +272,7 @@ if( !class_exists( 'EDD_Jeeb' ) ) {
                 edd_send_back_to_checkout( '?payment-mode=' . $purchase_data['post_data']['edd-gateway'] );
             } else {
                 $ipn_url     = trailingslashit( home_url() ).'?edd-listener=JEEBIPN';
-                $success_url = add_query_arg( 'payment-confirmation', 'jeeb', get_permalink( $edd_options['success_page'] ) );
+                $success_url = $edd_options['edd_jeeb_callback_url'];
                 $target_cur  = "";
                 $order_total = round( $purchase_data['price'] - $purchase_data['tax'], 2 );
                 $baseCur     = $edd_options['edd_jeeb_basecoin'];
