@@ -147,6 +147,7 @@ if( !class_exists( 'EDD_Jeeb' ) ) {
                       'btc' => 'BTC',
                       'eur' => 'EUR',
                       'irr' => 'IRR',
+                      'toman'=>'TOMAN',
                       'usd' => 'USD',
                      ),
                 ),
@@ -291,6 +292,11 @@ if( !class_exists( 'EDD_Jeeb' ) ) {
                 foreach ($params as $p) {
                   // error_log($p." = ". $edd_options["edd_jeeb_".$p]);
                   $edd_options["edd_jeeb_".$p] == 1 ? $target_cur .= $p . "/" : $target_cur .="" ;
+                }
+
+                if($baseCur=='toman'){
+                  $baseCur='irr';
+                  $order_total *= 10;
                 }
 
                 $amount = convertBaseToTarget($baseUri, $order_total, $signature, $baseCur);
